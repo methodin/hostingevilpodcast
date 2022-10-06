@@ -1,0 +1,49 @@
+---
+layout: default
+current: home
+class: 'home-template'
+navigation: True
+---
+
+<!-- < default -->
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<!-- The big featured header, it uses blog cover image as a BG if available -->
+<header class="site-header outer {% if page.cover or site.cover %}" style="background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(0, 0, 0, 1)), url({{ site.baseurl }}{% if page.cover %}{{ page.cover }}{% elsif site.cover %}{{ site.cover }}{% endif %}) {% else %}no-cover{% endif %}">
+    <div class="inner">
+        <div class="site-header-content landing">
+            <div class="title-container">
+            <h1 class="site-title landing">
+                {% if site.logo %}
+                    <img class="site-logo" src="{{ site.baseurl }}{{ site.logo }}" alt="{{ site.title }}"/>
+                {% else %}
+                    {{ site.title }}
+                {% endif %}
+            </h1>
+            </div>
+        </div>
+        {% include site-nav.html %}
+
+    </div>
+    <section class="description outer">
+        <h2 class="site-description">{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}</h2>
+    </section>
+		
+</header>
+
+<!-- The main content area -->
+<main id="site-main" class="site-main outer dark" role="main">
+    <div class="inner">
+
+        {% if site.counter %}
+        <div id="countdown"></div>
+        {% else %}
+        <div class="post-feed">
+            <!-- The tag below includes the markup for each post - partials/post-card.hbs -->
+            {%  include post-card.html %}
+        </div>
+        {% endif %}
+
+    </div>
+</main>
