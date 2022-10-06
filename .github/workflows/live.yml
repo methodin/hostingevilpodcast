@@ -1,0 +1,29 @@
+name: Live
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  live-build:
+    name: Build live
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Build
+        uses: jerryjvl/jekyll-build-action@v1
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+        
+      - name: Sync to S3
+        run: |
+          aws s3 sync ./_site/ s3://hostingevilpodcast.com --cache-control max-age=1800 --delete
