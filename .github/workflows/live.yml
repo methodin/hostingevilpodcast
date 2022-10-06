@@ -1,11 +1,13 @@
-name: Preview
+name: Live
 
 on:
-  pull_request:
+  push:
+    branches:
+      - main
 
 jobs:
-  preview-build:
-    name: Build preview
+  live-build:
+    name: Build live
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -24,4 +26,4 @@ jobs:
         
       - name: Sync to S3
         run: |
-          aws s3 sync ./_site/ s3://preview.hostingevilpodcast.com --cache-control max-age=1800 --delete
+          aws s3 sync ./_site/ s3://hostingevilpodcast.com --cache-control max-age=1800 --delete
